@@ -26,6 +26,5 @@ public class ApplicationContextListener implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {
 		ContextUtils.setApplicationContext(null);
-		
 	}
 }

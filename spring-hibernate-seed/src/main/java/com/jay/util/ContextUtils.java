@@ -21,15 +21,17 @@ public class ContextUtils {
     }
 
     public static ApplicationContext getApplicationContext() {
-        try {
-            synchronized (monitor) {
-                while (ContextUtils.applicationContext == null) {
-                    monitor.wait();
+    	if(ContextUtils.applicationContext == null){
+    		try {
+                synchronized (monitor) {
+                    while (ContextUtils.applicationContext == null) {
+                        monitor.wait();
+                    }
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    	}
         return ContextUtils.applicationContext;
     }
 

@@ -27,6 +27,10 @@ public class LoginController extends BaseController {
 		}
 
 		return "login";
-
+	}
+	
+	@RequestMapping(value = "/forbidden", method = RequestMethod.GET)
+	public String forbidden(Model model) {
+		return "forbidden";
 	}
 }
