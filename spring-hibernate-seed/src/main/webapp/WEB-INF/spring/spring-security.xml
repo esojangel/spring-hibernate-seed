@@ -34,6 +34,26 @@
 		<csrf />
 	</http>
 
+    <!-- 指定一个自定义的authentication-manager :customUserDetailsService --> 
+<!--  	<authentication-manager>   -->
+<!--         <authentication-provider user-service-ref="customUserDetailsService">   -->
+<!--             <password-encoder ref="passwordEncoder" />   -->
+<!--         </authentication-provider>   -->
+<!--     </authentication-manager>  -->
+    
+    <!-- 对密码进行MD5编码 -->  
+    <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+    
+     <!--   
+        	通过 customUserDetailsService,Spring会控制用户的访问级别. 也可以理解成:以后我们和数据库操作就是通过customUserDetailsService来进行关联.  
+     -->  
+<!--     <beans:bean id="customUserDetailsService" class="org.yzsoft.springmvcdemo.util.CustomUserDetailsService" />     -->
+    
+<!--     <beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">   -->
+<!--         <beans:property name="basename" value="classpath:messages" />   -->
+<!--     </beans:bean>   -->
+    <beans:bean id="localeResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver" /> 
+    
 	<authentication-manager>
 		<authentication-provider>
 			<user-service id="userService">
@@ -41,9 +61,9 @@
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>
-<!-- 	<authentication-manager> -->
-<!-- 		<authentication-provider user-service-ref="userService" /> -->
-<!-- 	</authentication-manager> -->
+	<authentication-manager>
+		<authentication-provider user-service-ref="userService" />
+	</authentication-manager>
 
 <!-- 	<beans:bean id="userService" class="com.jay.web.security.InMemoryChangePasswordDaoImpl"> -->
 <!-- 		<beans:property name="userProperties"> -->

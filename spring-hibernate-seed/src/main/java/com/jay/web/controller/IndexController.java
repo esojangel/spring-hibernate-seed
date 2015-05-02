@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 
  */
 @Controller
-public class LoginController extends BaseController {
+public class IndexController extends BaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model,
 			@RequestParam(value = "error", required = false) String error,
@@ -32,5 +32,15 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/forbidden", method = RequestMethod.GET)
 	public String forbidden(Model model) {
 		return "forbidden";
+	}
+	
+	@RequestMapping(value = "/error404", method = RequestMethod.GET)
+	public String error404(Model model) {
+		return "error404";
+	}
+	
+	@RequestMapping(value = "/exception", method = RequestMethod.GET)
+	public String exception(Model model) {
+		return "exception";
 	}
 }

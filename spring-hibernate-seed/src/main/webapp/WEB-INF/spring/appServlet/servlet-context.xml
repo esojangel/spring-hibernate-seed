@@ -15,7 +15,10 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.jay.web" />
+	<context:component-scan base-package="com.jay.web.controller" />
+	<context:component-scan base-package="com.jay.web.domain" />
+	<context:component-scan base-package="com.jay.web.service" />
+	
 	<mvc:annotation-driven validator="validator" />
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:resources mapping="/img/**" location="/resources/img/" />

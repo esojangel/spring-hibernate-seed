@@ -13,10 +13,10 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="panel panel-danger">
 					<div class="panel-heading">
-						<div class="panel-title">Warning</div>
+						<div class="panel-title">404</div>
 					</div>
 				  	<div class="panel-body">
-						<h4 style="padding-bottom: 100px;">You don't have the permission to access this URL! Click <a href="javascript:history.go(-1);" class="alert-link">here</a> and back to the front page.</h4>
+						<h4 style="padding-bottom: 100px;">The page you request is not found! Click <a href="javascript:history.go(-1);" class="alert-link">here</a> and back to the front page.</h4>
 					</div>
 				</div>
 			</div>
