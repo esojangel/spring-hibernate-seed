@@ -8,7 +8,7 @@
 <title>${title}</title>
 </head>
 <body>
-	<img src="resources/images/ok.png" alt='OK' style="float: left;" />
+	<img src="resources/img/ok.png" alt='OK' style="float: left;" />
 	<h1>Title : ${title}</h1>
 	<h1>Message : ${message}</h1>
 
