@@ -1,5 +1,7 @@
 package com.jay.web.service;
 
+import java.util.List;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -14,7 +16,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import com.jay.web.domain.Role;
 import com.jay.web.domain.User;
 import com.jay.web.repository.UserRepository;
 
@@ -29,16 +33,16 @@ public class UserService extends AbstractService<User>{
 	@Autowired
 	private UserRepository repository;
 
+	@Transactional(readOnly=true)
 	public User findByUUID(String uuid) {
 		User user = repository.findOne(uuid);
-		if (user != null) {
-			Hibernate.initialize(user.getRoles());
-		}
 		return user;
 	}
 
+	@Transactional(readOnly=true)
 	public User findUserByLoginName(String loginName) {
-		return repository.findByLoginName(loginName);
+		User user = repository.findByLoginName(loginName);
+		return user;
 	}
 
 	@Transactional

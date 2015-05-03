@@ -85,7 +85,7 @@ public class User extends Tenant {
 	}
 
 	// 密码 password
-	@Column(name = "PASSWORD", unique = false, nullable = false, updatable = true)
+	@Column(name = "PASSWORD", length = 32, unique = false, nullable = false, updatable = true)
 	public String getPassword() {
 		return password;
 	}
@@ -135,8 +135,8 @@ public class User extends Tenant {
 	}
 
 	// 备注 comment
-	@Length(max = 512, message = "{user.comment.length.error}")
-	@Column(name = "COMMENT", length = 512, unique = false, nullable = false, updatable = true)
+	@Length(max = 128, message = "{user.comment.length.error}")
+	@Column(name = "COMMENT", length = 128, unique = false, nullable = false, updatable = true)
 	public String getComment() {
 		return comment;
 	}

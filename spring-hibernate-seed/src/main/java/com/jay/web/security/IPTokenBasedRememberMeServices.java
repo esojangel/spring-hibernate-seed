@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
  * @author Jay Zhang
  *
  */
+@SuppressWarnings("deprecation")
 public class IPTokenBasedRememberMeServices extends TokenBasedRememberMeServices {
 	private static final ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<HttpServletRequest>();
 
