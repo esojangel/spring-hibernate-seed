@@ -16,16 +16,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.jay.mvc.domain.Privilege;
+import com.jay.mvc.domain.Role;
+import com.jay.mvc.domain.User;
 import com.jay.util.TxCallable;
 import com.jay.util.TxUtils;
-import com.jay.web.domain.Privilege;
-import com.jay.web.domain.Role;
-import com.jay.web.domain.User;
 
-@Service
 public class AuthUserDetailsService implements UserDetailsService {
 
 	protected static Logger logger = Logger.getLogger(AuthUserDetailsService.class);

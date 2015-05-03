@@ -12,9 +12,9 @@ import javax.persistence.JoinColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jay.web.domain.Abstract;
-import com.jay.web.domain.Auditrial;
-import com.jay.web.domain.Tenant;
+import com.jay.mvc.domain.Abstract;
+import com.jay.mvc.domain.Auditrial;
+import com.jay.mvc.domain.Tenant;
 
 /**
  * 
