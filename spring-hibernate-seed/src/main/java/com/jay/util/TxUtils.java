@@ -3,7 +3,6 @@ package com.jay.util;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,20 +15,8 @@ import org.slf4j.LoggerFactory;
 public class TxUtils {
 	private static Logger LOGGER = LoggerFactory.getLogger(TxUtils.class);
 	
-	private static final String PERSISTENCE_UNIT_NAME = "jay";
-	private static EntityManagerFactory factory = null;
-	
 	public static EntityManager getEntityManager() {
-//		EntityManagerFactory factory=ContextUtils.getBean("entityManagerFactory");
-//		return factory.createEntityManager();
-		if(factory == null) {
-			synchronized(EntityManagerFactory.class) {
-				if(factory == null) {
-					factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-				}
-			}
-		}
-		
+		EntityManagerFactory factory = AppContextUtils.getBean("entityManagerFactory");
 		return factory.createEntityManager();
 	}
 	

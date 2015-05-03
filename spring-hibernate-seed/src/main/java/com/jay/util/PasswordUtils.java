@@ -2,7 +2,7 @@ package com.jay.util;
 
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
-import com.jay.web.security.IPTokenBasedRememberMeServices;
+import com.jay.web.security.AuthSaltSource;
 
 /**
  * 
@@ -14,8 +14,8 @@ public class PasswordUtils {
 	
 	public static String getSalt() {
 		if (SALT==null){
-			IPTokenBasedRememberMeServices service = ContextUtils.getBean("ipTokenBasedRememberMeServices");
-			SALT = service.getKey();
+			AuthSaltSource saltSource = AppContextUtils.getBean("saltSource");
+			SALT = saltSource.getKey();
 			
 			if(SALT==null)
 				SALT = "";

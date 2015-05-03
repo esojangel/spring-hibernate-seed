@@ -40,17 +40,12 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/spring-context.xml
-			/WEB-INF/spring-security.xml
 		</param-value>
 	</context-param>
 
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	
-	<listener>
-		<listener-class>com.jay.web.listener.ApplicationContextListener</listener-class>
 	</listener>
 	
 	<!-- Spring的log4j监听器 -->
