@@ -8,10 +8,10 @@ import org.springframework.security.core.userdetails.memory.InMemoryDaoImpl;
  * @author Jay Zhang
  * 
  */
+@SuppressWarnings("deprecation")
 public class InMemoryChangePasswordDaoImpl extends InMemoryDaoImpl implements
 		IChangePassword {
 
-	@SuppressWarnings("deprecation")
 	public InMemoryChangePasswordDaoImpl() {
 		super();
 	}
