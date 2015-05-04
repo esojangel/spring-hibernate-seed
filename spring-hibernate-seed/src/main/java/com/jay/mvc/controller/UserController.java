@@ -27,7 +27,6 @@ import com.jay.mvc.domain.User;
 import com.jay.mvc.service.RoleService;
 import com.jay.mvc.service.SequenceService;
 import com.jay.mvc.service.UserService;
-import com.jay.util.PasswordUtils;
 
 /**
  * 
@@ -92,9 +91,9 @@ public class UserController {
 				} else {
 					Integer userId=seqService.getNextSequenceNumber(User.class.getName());
 					user.setUserId(userId);
-					user.setPassword(PasswordUtils.encode("123456"));
+					user.setPassword("123456");
 					try {
-						service.create(user);
+						user=service.create(user);
 					} catch (Exception e) {
 						status = "ERROR";
 						map.put("errorMsg", "保存失败!");
@@ -169,7 +168,7 @@ public class UserController {
 		if (original == null) {
 			map.put("errorMsg", "Not Found This User!");
 		} else {
-			original.setPassword(PasswordUtils.encode(password));
+			original.setPassword(password);
 			try {
 				service.update(original);
 			} catch (Exception e) {
@@ -243,7 +242,7 @@ public class UserController {
 			status = "ERROR";
 			map.put("errorMsg", "Not Found This User!");
 		} else {
-			service.deleteUserByUUID(uuid);
+			service.delete(uuid);
 		}
 		map.put("status", status);
 		return map;

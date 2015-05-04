@@ -35,7 +35,7 @@ public abstract class AbstractService<T extends Abstract> {
 	}
 
 	@Transactional
-	public void delete(final T entity) {
+	public void delete(T entity) {
 		T old = EntityUtils.checkSecurity(manager,entity);
 		manager.remove(old);
 	}

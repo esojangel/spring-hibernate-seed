@@ -2,7 +2,7 @@ package com.jay.util;
 
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
-import com.jay.web.security.AuthSaltSource;
+import com.jay.mvc.domain.User;
 
 /**
  * 
@@ -10,24 +10,16 @@ import com.jay.web.security.AuthSaltSource;
  * 
  */
 public class PasswordUtils {
-	public static String SALT = null;
 	
-	public static String getSalt() {
-		if (SALT==null){
-			AuthSaltSource saltSource = AppContextUtils.getBean("saltSource");
-			SALT = saltSource.getKey();
-			
-			if(SALT==null)
-				SALT = "";
-		}
-		return SALT;
+	public static String getSalt(User user) {
+		return user.getUUID();
 	}
 	
-	public static String encode(String password) {
-		return new Md5PasswordEncoder().encodePassword(password, getSalt());
+	public static String encode(String rawPass,String salt) {
+		return new Md5PasswordEncoder().encodePassword(rawPass, salt);
 	}
 	
-	public static boolean isValid(String encPass, String rawPass) {
-		return new Md5PasswordEncoder().isPasswordValid(encPass, rawPass, getSalt());
+	public static boolean isValid(String encPass, String rawPass, String salt) {
+		return new Md5PasswordEncoder().isPasswordValid(encPass, rawPass, salt);
 	}
 }

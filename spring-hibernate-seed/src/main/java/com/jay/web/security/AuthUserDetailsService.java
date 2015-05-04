@@ -6,11 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
 import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,51 +17,22 @@ import org.springframework.util.CollectionUtils;
 import com.jay.mvc.domain.Privilege;
 import com.jay.mvc.domain.Role;
 import com.jay.mvc.domain.User;
-import com.jay.util.TxCallable;
-import com.jay.util.TxUtils;
+import com.jay.mvc.service.UserService;
+import com.jay.util.AppContextUtils;
+import com.jay.util.PasswordUtils;
 
 public class AuthUserDetailsService implements UserDetailsService {
 
 	protected static Logger logger = Logger.getLogger(AuthUserDetailsService.class);
 
-	private String salt = "";
-	
 	@Override
 	public UserDetails loadUserByUsername(String username) {
-		User u = this.findUserByLoginName(username);
+		UserService userService = AppContextUtils.getBean("userService");
+		User u = userService.findUserWithRoles(username);
 		if (u == null) {
 			throw new UsernameNotFoundException("The user " + username + " is not exist.");
 		}
-		return new AuthUser(u.getLoginName(), u.getPassword(), salt, u.getActive(), getAuthorities(u));
-	}
-
-	public User findUserByLoginName(final String loginName) {
-		 return TxUtils.callTx(new TxCallable<User>() {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public User call(EntityManager manager) throws Exception {
-				Query query = manager.createNativeQuery("SELECT * FROM SYS_USER WHERE LOGIN_NAME = :loginName", User.class);
-				query.setParameter("loginName", loginName);
-				List<User> users = query.getResultList();
-				if(!CollectionUtils.isEmpty(users)) {
-					User user = users.get(0);
-					if(!Hibernate.isInitialized(user.getRoles())) {
-						Hibernate.initialize(user.getRoles());
-					}
-					if(!CollectionUtils.isEmpty(user.getRoles())){
-						List<Role> roles = user.getRoles();
-						for(Role role : roles) {
-							if(Hibernate.isInitialized(role.getPrivileges()))
-								continue;
-							Hibernate.initialize(role.getPrivileges());
-						}
-					}
-					return user;
-				}
-				return null;
-			}
-		});
+		return new AuthUser(u.getLoginName(), u.getPassword(), PasswordUtils.getSalt(u), u.getActive(), getAuthorities(u));
 	}
 	
 	/**
@@ -104,13 +71,5 @@ public class AuthUserDetailsService implements UserDetailsService {
 			}
 		}
 		return auths;
-	}
-
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
 	}
 }

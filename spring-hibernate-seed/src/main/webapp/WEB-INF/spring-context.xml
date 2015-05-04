@@ -4,6 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:cache="http://www.springframework.org/schema/cache"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans     
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -14,7 +15,9 @@
         http://www.springframework.org/schema/data/jpa
         http://www.springframework.org/schema/data/jpa/spring-jpa-1.2.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/cache
+     	http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<import resource="spring-security.xml" />
@@ -31,5 +34,20 @@
 
 	<!-- 启用 annotation事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- 声明对Cache的支持 -->
+	<cache:annotation-driven/>
+	
+	<bean id="userService" class="com.jay.mvc.service.UserService"></bean>
+	
+	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+      <property name="caches">
+         <set>
+            <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+            	<property name="name" value="cacheMap"></property>
+            </bean>
+         </set>
+      </property>
+   </bean>
 
 </beans>

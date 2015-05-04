@@ -18,8 +18,8 @@
 			authentication-failure-url="/login?error"
 			username-parameter="username"
 			password-parameter="password" />
-
-		<remember-me key="#{saltSource.key}" services-ref="rememberMeServices" />
+		
+		<remember-me key="#{staticSaltSource.systemWideSalt}" services-ref="rememberMeServices" />
 		<logout invalidate-session="true" logout-url="/logout" logout-success-url="/login?logout" />
 		<session-management>
 			<concurrency-control expired-url="/login?expired"/>
@@ -30,30 +30,42 @@
  	<authentication-manager>  
         <authentication-provider user-service-ref="userDetailsService">
             <password-encoder ref="passwordEncoder">
-            	<salt-source ref="saltSource"/>
+            	<salt-source ref="passwordSaltSource"/>
             </password-encoder> 
         </authentication-provider>  
     </authentication-manager> 
     
     <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
     
-	<beans:bean id="saltSource" class="com.jay.web.security.AuthSaltSource">
-		<beans:property name="key" value="jay" />
+	<beans:bean id="passwordSaltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<beans:property name="userPropertyToUse" value="salt" />
 	</beans:bean>
 	
-    <beans:bean id="userDetailsService" class="com.jay.web.security.AuthUserDetailsService" >
-    	<beans:property name="salt" value="#{saltSource.key}" />
-    </beans:bean>
+	<beans:bean id="staticSaltSource" class="org.springframework.security.authentication.dao.SystemWideSaltSource">
+		<beans:property name="systemWideSalt" value="jay" />
+	</beans:bean>
+	
+	<!-- 从数据库加载UserDetails的UserDetailsService -->
+    <beans:bean id="userDetailsService" class="com.jay.web.security.AuthUserDetailsService" />
      
     <!-- 604800s =7*24*3600 s = 1 week -->
     <beans:bean id="rememberMeServices"	class="com.jay.web.security.IPTokenBasedRememberMeServices">
-		<beans:property name="key" value="#{saltSource.key}" />
-		<beans:property name="tokenValiditySeconds" value="604800"></beans:property>
+		<beans:property name="key" value="#{staticSaltSource.systemWideSalt}" />
+		<beans:property name="tokenValiditySeconds" value="604800" />
 		<beans:property name="userDetailsService" ref="userDetailsService" />
 		<beans:property name="parameter" value="_remember_me" />
 		<beans:property name="cookieName" value="REMEMBER_ME" />
-	</beans:bean>    
-    
+	</beans:bean>
+	
+	<!-- 访问决策器，决定某个用户（具有的角色）是否有足够的权限去访问某个资源 -->  
+<!-- 	<beans:bean id="accessDecisionManager"  class="com.jay.web.security.AuthAccessDecisionManager"> -->
+<!-- 		<beans:property name="decisionVoters"> -->
+<!-- 			<beans:list> -->
+<!-- 				<beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter" /> -->
+<!-- 		 	</beans:list> -->
+<!-- 		</beans:property> -->
+<!-- 	</beans:bean>  -->
+	
 <!--     <beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">   -->
 <!--         <beans:property name="basename" value="classpath:messages" />   -->
 <!--     </beans:bean>   -->

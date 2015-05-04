@@ -74,7 +74,7 @@ public class SessionController {
 				map.put("status", "ERROR");
 				map.put("errorMsg", "用户名不存在!");
 			}
-			else if (PasswordUtils.isValid(password, user.getPassword())) {
+			else if (PasswordUtils.isValid(password, user.getPassword(), user.getUUID())) {
 				if (user.getActive()) {
 					boolean isAdmin = user.isAdmin();
 					HttpSession session = request.getSession();
@@ -182,15 +182,14 @@ public class SessionController {
 				User user = service.findUserByLoginName(userName);
 				boolean flag = user != null;
 				if (flag) {
-					flag = PasswordUtils.isValid(oldPsd, user.getPassword());
+					flag = PasswordUtils.isValid(oldPsd, user.getPassword(), user.getUUID());
 				}
 				if (!flag) {
 					map.put("status", "ERROR");
 					map.put("errorMsg", "旧密码不正确！");
 				}
 				else {
-					String pwd = PasswordUtils.encode(newPsd);
-					user.setPassword(pwd);
+					user.setPassword(newPsd);
 					service.create(user);
 					map.put("status", "SUCCEED");
 					map.put("viewName", "/login");// 登录界面

@@ -143,7 +143,7 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>4.2.6.Final</version>
 		</dependency>
-
+		
 		<!-- Apache Commons Upload -->
 <!-- 		<dependency> -->
 <!-- 			<groupId>commons-fileupload</groupId> -->
